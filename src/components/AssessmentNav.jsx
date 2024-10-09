@@ -15,6 +15,7 @@ function AssessmentNav() {
     const questions = {
         1 : "Hear the Audio and try to speak out the content in the audio",
         2 : "Read the Text and try to speak out the content in audio",
+        3 : "Read the Text and try to speak out the content in audio"
     }
 
   return (
@@ -36,8 +37,8 @@ function AssessmentNav() {
             <div className='w-full mx-auto flex justify-center hover:cursor-pointer'>
                 <div className='w-1/4 flex justify-between align-middle items-center'>
                     <KeyboardArrowLeftIcon />
-                    <div className='w-1/2 flex mx-auto'>
-                    {[1,2].map((item)=>{
+                    <div className='w-1/2 flex mx-auto justify-evenly'>
+                    {[1,2,3].map((item)=>{
                         return(
                             <div 
                                 className={`text-gray-800 p-3 ${qno === item ? 'bg-[#eff2f7]' : ''}`} key={item}
@@ -57,12 +58,21 @@ function AssessmentNav() {
         <div className='w-[95%] mt-5 mx-auto  flex gap-4 h-[70vh]'>
             <div className='w-1/2 p-5 shadow-sm rounded-lg bg-white'>
                 <div className='w-full'>
-                    <h2 className='font-[500] text-[#495057]'>Questionss {qno}
+                    <h2 className='font-[500] text-[#495057]'>Questions {qno}
                     <hr className='mt-3'></hr></h2>
                 </div>
                 <div className='w-full m-5'>
                     <h2 className='font-[500] text-[#495057]'>{questions[qno]}</h2>
-                    <AudioPlayer />
+                    { (qno === 1 || qno === 2) &&
+                        <AudioPlayer />
+                    }
+                    {  qno === 3 &&
+                        <p className='font-[400] text-[#495057] w-[95%] mt-2 p-2 ml-[-10px]  text-justify shadow-sm'>
+                            {
+                                "English conversation practice is the most powerful method you can use to understand the language. It helps you get the speaking practice you need as well as improve your listening skills."
+                            }
+                        </p>
+                    }
                 </div>
                 <div className='border-t  border-[#d3d3d3] p-2 mt-[300px]'>
                     <div className='flex justify-end gap-5 text-black'>
@@ -78,7 +88,7 @@ function AssessmentNav() {
                         </Button>
                         <Button variant="none"  style={{fontWeight : 500 , border : "1px solid #495057"}}
                             onClick={() => {
-                                if(qno !== 2){
+                                if(qno !== 3){
                                 setQno(qno + 1)
                                 }}
                             }   
@@ -98,12 +108,17 @@ function AssessmentNav() {
                     }
                     {qno === 2 &&
                         <h2 className='font-[500] text-[#4d5749] ml-5'>
+                        {"Press the below button to start recording the Answer"}
+                        </h2>
+                    }  
+                    {qno === 3 &&
+                        <h2 className='font-[500] text-[#4d5749] ml-5'>
                         {"Type the Answer in the box"}
                         </h2>
                     }  
                 </div>
                 <div className='w-full m-5'>
-                    {(qno === 1) &&
+                    {(qno === 1 || qno === 3) &&
                         <VoiceToText />
                     }
                     {(qno === 2) &&
@@ -117,7 +132,7 @@ function AssessmentNav() {
                         color='success'
                         style={{fontWeight : 500 , border : "1px solid #495057" , backgroundColor : "#6db752"}}
                         onClick={() => {
-                            if(qno !== 2)
+                            if(qno !== 3)
                             setQno(qno + 1)
                             else
                             window.location.href = "/result"
